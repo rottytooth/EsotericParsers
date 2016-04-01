@@ -1,0 +1,10 @@
+﻿body {
+    font-family: Consolas, 'Courier New', 'Global Monospace', monospace;
+}
+#errorPanel {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+#errors {
+    color: #aa0000;
+}
