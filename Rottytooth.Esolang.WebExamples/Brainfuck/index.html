@@ -12,13 +12,14 @@
         function executeBf()
         {
             var results = "";
-            $('#output').text("");
+            $('#output').html();
+            $('#errors').html();
 
             try {
                 results = brainfuckParser.parse($('#code').val());
             }
             catch (err) {
-                $('#errors').text(err.message);
+                $('#errors').text(err);
             }
 
             brainfuckRuntime.run(results, '#output');
