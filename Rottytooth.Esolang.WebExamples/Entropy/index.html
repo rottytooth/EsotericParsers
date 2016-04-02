@@ -12,14 +12,15 @@
         function executeSF()
         {
             var results = "";
-            $('#output').text("");
+            $('#output').html();
+            $('#errors').html();
 
             try {
                 results = entropyParser.parse($('#code').val());
                 entropyRuntime.run(results, $('#output'));
             }
             catch (err) {
-                $('#errors').text(err.message);
+                $('#errors').text(err);
             }
         }
     </script>

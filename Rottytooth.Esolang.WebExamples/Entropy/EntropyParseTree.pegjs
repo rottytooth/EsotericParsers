@@ -71,7 +71,7 @@ Type = type:"real"/"int"/"char"/"string"
 
 // Expressions
 
-Expression = _? exp:(ExpressionBlock/ComparisonOrLower)+ _? // _? exp:(ExpressionBlock/Comparison/AdditiveExpression/MultiplicativeExpression/UnaryExpression)+ _?
+Expression = _? exp:(ExpressionBlock/Comparison)+ _?
 		{ return exp; }
         
 ExpressionBlock = '(' _? exp:Expression _? ')'
@@ -80,46 +80,40 @@ ExpressionBlock = '(' _? exp:Expression _? ')'
             expression: exp};
         }
 
-Comparison = left:(ExpressionBlock/AdditiveOrLower) _? op:("="/"<="/">="/"<"/">") _? right:(ExpressionBlock/AdditiveOrLower)
+Comparison = left:(ExpressionBlock/AdditiveExpression) _? op:("="/"<="/">="/"<"/">") _? right:(ExpressionBlock/Expression)
 		{ return {
         	type: "Comparison",
             operator: op,
             left: left,
             right: right};
-        }
-
+        } / AdditiveExpression
 
 AdditiveExpression
-  = left:(ExpressionBlock/MultiplicativeOrLower) _? op:AdditiveOperator _? right:(ExpressionBlock/AdditiveOrLower)
+  = left:(ExpressionBlock/MultiplicativeExpression) _? op:AdditiveOperator _? right:(ExpressionBlock/AdditiveExpression)
     { return {
             type: "Additive", 
             operator: op,
             left: left,
             right: right};
-    }
+    } / MultiplicativeExpression
 
 AdditiveOperator
   = $("+" ![+=])
   / $("-" ![-=])
   
 MultiplicativeExpression
-  = left:(ExpressionBlock/UnaryExpression) _? op:MultiplicativeOperator _? right:(ExpressionBlock/MultiplicativeOrLower)
+  = left:(ExpressionBlock/UnaryExpression) _? op:MultiplicativeOperator _? right:(ExpressionBlock/MultiplicativeExpression)
     { return {
             type: "Multiplicative", 
             operator: op,
             left: left,
             right: right};
-    }
+    } / UnaryExpression
     
 MultiplicativeOperator
   = $("*" !"=")
   / $("/" !"=")
   / $("%" !"=")
-
-// Precedence
-ComparisonOrLower = (Comparison / AdditiveOrLower)
-AdditiveOrLower = (AdditiveExpression / MultiplicativeOrLower)
-MultiplicativeOrLower = (MultiplicativeExpression / UnaryExpression)
 
 UnaryExpression = Literal / VariableName
 

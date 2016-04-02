@@ -1062,14 +1062,14 @@
                 s2 = [];
                 s3 = peg$parseExpressionBlock();
                 if (s3 === peg$FAILED) {
-                    s3 = peg$parseComparisonOrLower();
+                    s3 = peg$parseComparison();
                 }
                 if (s3 !== peg$FAILED) {
                     while (s3 !== peg$FAILED) {
                         s2.push(s3);
                         s3 = peg$parseExpressionBlock();
                         if (s3 === peg$FAILED) {
-                            s3 = peg$parseComparisonOrLower();
+                            s3 = peg$parseComparison();
                         }
                     }
                 } else {
@@ -1165,7 +1165,7 @@
             s0 = peg$currPos;
             s1 = peg$parseExpressionBlock();
             if (s1 === peg$FAILED) {
-                s1 = peg$parseAdditiveOrLower();
+                s1 = peg$parseAdditiveExpression();
             }
             if (s1 !== peg$FAILED) {
                 s2 = peg$parse_();
@@ -1224,7 +1224,7 @@
                         if (s4 !== peg$FAILED) {
                             s5 = peg$parseExpressionBlock();
                             if (s5 === peg$FAILED) {
-                                s5 = peg$parseAdditiveOrLower();
+                                s5 = peg$parseExpression();
                             }
                             if (s5 !== peg$FAILED) {
                                 peg$savedPos = s0;
@@ -1250,6 +1250,9 @@
                 peg$currPos = s0;
                 s0 = peg$FAILED;
             }
+            if (s0 === peg$FAILED) {
+                s0 = peg$parseAdditiveExpression();
+            }
 
             return s0;
         }
@@ -1260,7 +1263,7 @@
             s0 = peg$currPos;
             s1 = peg$parseExpressionBlock();
             if (s1 === peg$FAILED) {
-                s1 = peg$parseMultiplicativeOrLower();
+                s1 = peg$parseMultiplicativeExpression();
             }
             if (s1 !== peg$FAILED) {
                 s2 = peg$parse_();
@@ -1277,7 +1280,7 @@
                         if (s4 !== peg$FAILED) {
                             s5 = peg$parseExpressionBlock();
                             if (s5 === peg$FAILED) {
-                                s5 = peg$parseAdditiveOrLower();
+                                s5 = peg$parseAdditiveExpression();
                             }
                             if (s5 !== peg$FAILED) {
                                 peg$savedPos = s0;
@@ -1302,6 +1305,9 @@
             } else {
                 peg$currPos = s0;
                 s0 = peg$FAILED;
+            }
+            if (s0 === peg$FAILED) {
+                s0 = peg$parseMultiplicativeExpression();
             }
 
             return s0;
@@ -1423,7 +1429,7 @@
                         if (s4 !== peg$FAILED) {
                             s5 = peg$parseExpressionBlock();
                             if (s5 === peg$FAILED) {
-                                s5 = peg$parseMultiplicativeOrLower();
+                                s5 = peg$parseMultiplicativeExpression();
                             }
                             if (s5 !== peg$FAILED) {
                                 peg$savedPos = s0;
@@ -1448,6 +1454,9 @@
             } else {
                 peg$currPos = s0;
                 s0 = peg$FAILED;
+            }
+            if (s0 === peg$FAILED) {
+                s0 = peg$parseUnaryExpression();
             }
 
             return s0;
@@ -1585,39 +1594,6 @@
                         s0 = s1;
                     }
                 }
-            }
-
-            return s0;
-        }
-
-        function peg$parseComparisonOrLower() {
-            var s0;
-
-            s0 = peg$parseComparison();
-            if (s0 === peg$FAILED) {
-                s0 = peg$parseAdditiveOrLower();
-            }
-
-            return s0;
-        }
-
-        function peg$parseAdditiveOrLower() {
-            var s0;
-
-            s0 = peg$parseAdditiveExpression();
-            if (s0 === peg$FAILED) {
-                s0 = peg$parseMultiplicativeOrLower();
-            }
-
-            return s0;
-        }
-
-        function peg$parseMultiplicativeOrLower() {
-            var s0;
-
-            s0 = peg$parseMultiplicativeExpression();
-            if (s0 === peg$FAILED) {
-                s0 = peg$parseUnaryExpression();
             }
 
             return s0;

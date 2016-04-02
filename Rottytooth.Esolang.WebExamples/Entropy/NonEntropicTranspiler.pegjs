@@ -1,9 +1,9 @@
 ﻿Start = 
 		_? "Program" _ namespace:Identifier _ programName:Identifier _? "[" _? program:Command* _? "]" _?
         { 
-        	return 	"function " + namespace + "_" + programName + "() {" +
+        	return 	"function main() {" +
             		"\n" + program.join("") +
-                    "\n}";
+                    "\n}\nmain();";
         }
 
 // Commands
@@ -54,38 +54,34 @@ Type = type:"real"/"int"/"char"/"string"
 
 // Expressions
 
-Expression = _? exp:ExpressionBlockOrLower _? // _? exp:(ExpressionBlock/Comparison/AdditiveExpression/MultiplicativeExpression/UnaryExpression)+ _?
+Expression = _? exp:(ExpressionBlock/Comparison) _?
 		{ return exp; }
         
-ExpressionBlock = '(' _? exp:ExpressionBlockOrLower _? ')'
+ExpressionBlock = '(' _? exp:Expression _? ')'
 		{ return "(" + exp + ")"; }
 
-Comparison = left:(ExpressionBlock/AdditiveOrLower) _? op:("="/"<="/">="/"<"/">") _? right:(ExpressionBlock/AdditiveOrLower)
+Comparison = left:(ExpressionBlock/AdditiveExpression) _? op:("="/"<="/">="/"<"/">") _? right:(ExpressionBlock/AdditiveExpression)
 		{ return "(" + left + " " + op + " " + right + ")" }
-
+  / AdditiveExpression
 
 AdditiveExpression
-  = left:(ExpressionBlock/MultiplicativeOrLower) _? op:AdditiveOperator _? right:(ExpressionBlock/AdditiveOrLower)
+  = left:(ExpressionBlock/MultiplicativeExpression) _? op:AdditiveOperator _? right:(ExpressionBlock/AdditiveExpression)
 		{ return "(" + left + " " + op + " " + right + ")" }
+  / MultiplicativeExpression
 
 AdditiveOperator
   = $("+" ![+=])
   / $("-" ![-=])
   
 MultiplicativeExpression
-  = left:(ExpressionBlock/UnaryExpression) _? op:MultiplicativeOperator _? right:(ExpressionBlock/MultiplicativeOrLower)
+  = left:(ExpressionBlock/UnaryExpression) _? op:MultiplicativeOperator _? right:(ExpressionBlock/MultiplicativeExpression)
 		{ return "(" + left + " " + op + " " + right + ")" }
+  / UnaryExpression
     
 MultiplicativeOperator
   = $("*" !"=")
   / $("/" !"=")
   / $("%" !"=")
-
-// Precedence
-ExpressionBlockOrLower = (ExpressionBlock / ComparisonOrLower)
-ComparisonOrLower = (Comparison / AdditiveOrLower)
-AdditiveOrLower = (AdditiveExpression / MultiplicativeOrLower)
-MultiplicativeOrLower = (MultiplicativeExpression / UnaryExpression)
 
 UnaryExpression = VariableName / Literal
 

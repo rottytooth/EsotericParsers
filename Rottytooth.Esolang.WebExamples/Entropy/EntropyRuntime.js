@@ -61,6 +61,10 @@
     }
 
     function _setVar(varName, value) {
+
+        if (_varStore[varName] === undefined)
+            throw "Could not find variable called " + varName;
+
         // type checking -- don't pass a string into something else, otherwise everything's good
         if (typeof value === 'string' && _varStore[varName].type !== 'string' && 
             !(_varStore[varName].type === 'char' && value.length === 1)) // if it's a string of length 1, it's a char (for us)
@@ -166,6 +170,14 @@
     }
 
     function _loopExpression(node) {
+        // if we're given an array, append each piece and send back (happens with comparisons sometimes)
+        if (node.type === undefined && node[0].type !== undefined) {
+            var retString = "";
+            for (var k = 0; k < node.length; k++) {
+                retString += _loopExpression(node[k]);
+            }
+            return retString;
+        }
         // build a string of the expression and send it back
         switch (node.type) {
             case "ExpressionBlock":
