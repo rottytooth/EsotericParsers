@@ -135,7 +135,7 @@
                 return;
             case "Print":
                 var exp = eval(_buildExpression(node.expression));
-                output.append(exp.replace(/(?:\r\n|\r|\n)/g, '<br />')); // output to a div, htmlify the line breaks
+                output.append(exp.toString().replace(/(?:\r\n|\r|\n)/g, '<br />')); // output to a div, htmlify the line breaks
                 return;
             case "Declare":
                 _declareVar(node.varName, node.varType);
@@ -178,6 +178,9 @@
             }
             return retString;
         }
+
+        if (retString === undefined) retString = "";
+
         // build a string of the expression and send it back
         switch (node.type) {
             case "ExpressionBlock":
@@ -186,6 +189,7 @@
                     retString += _loopExpression(node.expression[i]);
                 }
                 retString += ") ";
+                return retString;
                 break;
             case "Comparison":
             case "Additive":

@@ -4,7 +4,7 @@
     <title></title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../Styles/WebExamples.css" />
-    <script type="text/javascript" src="../Scripts/jquery-1.12.2.js"></script>
+    <script type="text/javascript" src="../Scripts/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="../Scripts/peg-0.9.0.js"></script>
     <script type="text/javascript" src="BrainfuckParser.js"></script>
     <script type="text/javascript" src="BrainfuckRuntime.js"></script>
@@ -12,8 +12,8 @@
         function executeBf()
         {
             var results = "";
-            $('#output').html();
-            $('#errors').html();
+            $('#output').html("");
+            $('#errors').html("");
 
             try {
                 results = brainfuckParser.parse($('#code').val());
@@ -31,6 +31,6 @@
     <textarea cols="100" rows="20" id="code"></textarea><br />
     <input type="button" onclick="executeBf();" value="Execute" />
     <div id="errorPanel">Output: <span id="errors"></span></div>
-    <div style="border: solid 1px black; width: 800px; height: 200px; overflow-y: scroll;" id="output"></div>
+    <div style="border: solid 1px black; width: 800px; height: 200px; overflow-y: scroll; resize: both" id="output"></div>
 </body>
 </html>
