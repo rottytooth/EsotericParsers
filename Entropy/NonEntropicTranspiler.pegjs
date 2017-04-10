@@ -11,7 +11,7 @@
 Command = _? command:(Block / Statement) _?
 		{ return command; }
         
-Statement = (command:(Declare/Assignment/Input/Print) _? ";")        
+Statement = command:(Declare/Assignment/Input/Print) _? ";"
 		{ return command; }
 
 Block = command:(While/If) 
