@@ -40,7 +40,7 @@
                 switch(parseTree[i])
                 {
                     case "Print":
-                        $(output).append(String.fromCharCode(_memory[_idx]));
+                        document.getElementById(output).innerText += String.fromCharCode(_memory[_idx]);
                         break;
                     case "Input":
                         var input = prompt("Please input a value", "");
@@ -72,7 +72,7 @@
                 }
 
                 // Uncomment line below to see the parse tree printed to output
-//                $(output).append(parseTree[i] + "<BR>");
+//                output.text += parseTree[i] + "<BR>";
             }
             else { // If it's not a string, it's an object holding the sub-tree; this corresponds to a loop
                 _executeCommands(parseTree[i], output);

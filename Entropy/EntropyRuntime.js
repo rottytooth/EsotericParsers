@@ -135,7 +135,7 @@
                 return;
             case "Print":
                 var exp = eval(_buildExpression(node.expression));
-                output.append(exp.toString().replace(/(?:\r\n|\r|\n)/g, '<br />')); // output to a div, htmlify the line breaks
+                output.innerText += exp.toString().replace(/(?:\r\n|\r|\n)/g, '<br />'); // output to a div, htmlify the line breaks
                 return;
             case "Declare":
                 _declareVar(node.varName, node.varType);

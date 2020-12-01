@@ -4,7 +4,6 @@
     <title></title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../Styles/WebExamples.css" />
-    <script type="text/javascript" src="../Scripts/jquery-3.1.1.js"></script>
     <script type="text/javascript" src="../Scripts/peg-0.9.0.js"></script>
     <script type="text/javascript" src="EntropyParser.js"></script>
     <script type="text/javascript" src="EntropyRuntime.js"></script>
@@ -12,15 +11,15 @@
         function executeSF()
         {
             var results = "";
-            $('#output').html("");
-            $('#errors').html("");
+            document.getElementById("output").innerText = "";
+            document.getElementById("errors").innerText = "";
 
             try {
-                results = entropyParser.parse($('#code').val());
-                entropyRuntime.run(results, $('#output'));
+                var code = document.getElementById("code").value
+                entropyRuntime.run(results, 'output');
             }
             catch (err) {
-                $('#errors').text(err);
+                document.getElementById("errors").innerText = err;
             }
         }
     </script>
